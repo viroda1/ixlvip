@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>VIRO VIP – Black & Gold Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'Segoe UI', 'Poppins', system-ui, monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* Gold & black theme */
+        .vip-container {
+            max-width: 500px;
+            width: 100%;
+            background: #111;
+            border: 1px solid #ffd700;
+            border-radius: 24px;
+            box-shadow: 0 0 20px rgba(255,215,0,0.2);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            transition: all 0.3s ease;
+        }
+
+        /* Header with big V */
+        .vip-header {
+            background: #0a0a0a;
+            padding: 2rem 1rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #ffd700;
+        }
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(255,215,0,0.3);
+            letter-spacing: -0.05em;
+        }
+        .version {
+            color: #ffd700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+            font-family: monospace;
+        }
+
+        /* Main content */
+        .vip-content {
+            padding: 2rem;
+        }
+
+        /* Login form */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .input-group label {
+            color: #ffd700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .input-group input {
+            background: #1a1a1a;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            color: #f0f0f0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 8px rgba(255,215,0,0.5);
+        }
+        .login-btn {
+            background: #ffd700;
+            border: none;
+            border-radius: 40px;
+            padding: 0.8rem;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #0a0a0a;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-btn:hover {
+            background: #e6c300;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,215,0,0.3);
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Download section (hidden until login) */
+        .download-section {
+            margin-top: 2rem;
+            text-align: center;
+            display: none;
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+        }
+        .download-btn {
+            background: transparent;
+            border: 2px solid #ffd700;
+            border-radius: 40px;
+            padding: 0.8rem 1.8rem;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #ffd700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: monospace;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .download-btn:hover {
+            background: #ffd700;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+        }
+        .info-text {
+            color: #aaa;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .vip-footer {
+            background: #0a0a0a;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ffd700;
+            color: #ffd700;
+            font-family: monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .vip-content {
+                padding: 1.5rem;
+            }
+            .logo {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vip-container">
+        <div class="vip-header">
+            <div class="logo">V</div>
+            <div class="version">VIRO VIP V 1.0</div>
+        </div>
+        <div class="vip-content">
+            <div class="login-form">
+                <div class="input-group">
+                    <label>🔑 ACCESS KEY</label>
+                    <input type="password" id="accessKey" placeholder="Enter the golden key...">
+                </div>
+                <button class="login-btn" id="loginBtn">UNLOCK VIP</button>
+                <div id="errorMsg" class="error-message">⛔ Invalid key. Access denied.</div>
+            </div>
+            <div id="downloadSection" class="download-section">
+                <button id="downloadBtn" class="download-btn">⬇️ DOWNLOAD VIRO VIP</button>
+                <div class="info-text">After download, open the .user.js file with Tampermonkey / Violentmonkey to install.</div>
+            </div>
+        </div>
+        <div class="vip-footer">
+            vvv
+        </div>
+    </div>
+
+    <script>
+        // Pre‑defined password (change to your own)
+        const VIP_PASSWORD = "vip2025";   // <-- You can change this
+        let authenticated = false;
+
+        const loginBtn = document.getElementById('loginBtn');
+        const accessInput = document.getElementById('accessKey');
+        const errorMsg = document.getElementById('errorMsg');
+        const downloadSection = document.getElementById('downloadSection');
+
+        // Full script content (VIRO VIP userscript)
+        const scriptContent = `// ==UserScript==
+// @name         VIRO VIP
+// @namespace    https://viroda1.github.io/nmspc/
+// @version      1.0
+// @description  Black & gold premium toolkit: auto‑answer, anti‑monitoring, prize farming, custom profiles, dark theme, 20+ features, custom icons, and more.
+// @author       viroda1
+// @match        https://www.ixl.com/*
+// @icon         data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3E%3Cpath d='M12 2L15 8.5L22 9.5L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9.5L9 8.5L12 2Z'/%3E%3C/svg%3E
+// @grant        GM_addStyle
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @run-at       document-end
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // ==================== CONFIGURATION ====================
+    const CONFIG = {
+        // Persisted settings
+        darkMode: GM_getValue('darkMode', true),
+        goldAccent: GM_getValue('goldAccent', '#FFD700'),
+        autoAnswer: GM_getValue('autoAnswer', false),
+        prizeFarm: GM_getValue('prizeFarm', false),
+        keepAlive: GM_getValue('keepAlive', false),
+        antiMonitor: GM_getValue('antiMonitor', true),
+        autoClaimPrizes: GM_getValue('autoClaimPrizes', true),
+        autoSkipIntro: GM_getValue('autoSkipIntro', true),
+        removeAds: GM_getValue('removeAds', true),
+        showHUD: GM_getValue('showHUD', true),
+        soundAlerts: GM_getValue('soundAlerts', false),
+        idleRefresh: GM_getValue('idleRefresh', false),
+        idleMinutes: GM_getValue('idleMinutes', 5),
+        targetScore: GM_getValue('targetScore', 100),
+        maxAttempts: GM_getValue('maxAttempts', 50),
+        keybinds: GM_getValue('keybinds', { startAuto: 'a', stopAll: 's', openMenu: 'm' }),
+        // Non‑persisted
+        autoAnswerInterval: null,
+        farmInterval: null,
+        keepAliveInterval: null,
+        idleTimer: null,
+        lastActivity: Date.now(),
+        // Other
+        searchEngines: [
+            { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=', img: 'https://www.youtube.com/s/desktop/f0145c42/img/favicon_32x32.png' },
+            { name: 'Google', url: 'https://www.google.com/search?q=', img: 'https://www.google.com/favicon.ico' },
+            { name: 'Khan Academy', url: 'https://www.khanacademy.org/search?search_again=1&page_search_query=', img: 'https://cdn.kastatic.org/images/favicon.ico' },
+            { name: 'Wikipedia', url: 'https://en.wikipedia.org/w/index.php?search=', img: 'https://en.wikipedia.org/static/favicon/wikipedia.ico' },
+            { name: 'Quizlet', url: 'https://quizlet.com/search?query=', img: 'https://quizlet.com/favicon.ico' },
+            { name: 'Wolfram Alpha', url: 'https://www.wolframalpha.com/input/?i=', img: 'https://www.wolframalpha.com/favicon.ico' }
+        ]
+    };
+
+    // ==================== ANTI‑MONITORING ====================
+    function enableAntiMonitoring() {
+        if (!CONFIG.antiMonitor) return;
+
+        // Block known tracking endpoints
+        const blockedUrls = [
+            'https://www.ixl.com/analytics',
+            'https://www.ixl.com/beacon',
+            'https://www.ixl.com/monitor',
+            '/log',
+            '/track'
+        ];
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            const url = args[0];
+            if (typeof url === 'string' && blockedUrls.some(b => url.includes(b))) {
+                console.log('[VIRO VIP] Blocked fetch to', url);
+                return Promise.reject(new Error('Blocked by VIRO VIP'));
+            }
+            return originalFetch.apply(this, args);
+        };
+
+        // Block XMLHttpRequest
+        const originalXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+            if (blockedUrls.some(b => url.includes(b))) {
+                console.log('[VIRO VIP] Blocked XHR to', url);
+                this.abort();
+                return;
+            }
+            return originalXHROpen.apply(this, [method, url, ...rest]);
+        };
+
+        // Disable navigator.sendBeacon
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon = function() { return false; };
+        }
+
+        // Override console methods to suppress tracking logs (optional)
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+            const msg = args.join(' ');
+            if (msg.includes('track') || msg.includes('analytics')) return;
+            originalConsoleLog.apply(console, args);
+        };
+    }
+
+    // ==================== UTILITIES ====================
+    function showNotification(msg, duration = 2000, type = 'info') {
+        const notif = document.createElement('div');
+        notif.className = \`viro-notification \${type}\`;
+        notif.innerHTML = \`<span class="viro-notif-icon">\${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span> \${msg}\`;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), duration);
+    }
+
+    function getQuestionText() {
+        const qElem = document.querySelector('.yui3-practiceagent-content, .old-space-indent, .question-text, [class*="question"]');
+        return qElem ? qElem.innerText.trim() : '';
+    }
+
+    function extractMathExpression(text) {
+        const match = text.match(/(\\d+(?:\\s*[\\+\\-\\*\\/]\\s*\\d+)+)/);
+        return match ? match[0] : null;
+    }
+
+    function evaluateMathExpression(expr) {
+        try {
+            const cleaned = expr.replace(/[^0-9+\\-*/.\s]/g, '');
+            if (!cleaned) return null;
+            const result = new Function('return (' + cleaned + ')')();
+            return isNaN(result) ? null : result;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function getSmartScore() {
+        const scoreElem = document.querySelector('.smartScore, .smart-score, [class*="smartScore"]');
+        if (scoreElem) {
+            const text = scoreElem.innerText;
+            const match = text.match(/\\d+/);
+            return match ? parseInt(match[0]) : 0;
+        }
+        return 0;
+    }
+
+    function submitAnswer(answer) {
+        const answerField = document.querySelector('.fillIn, input[type="text"], textarea');
+        if (!answerField) {
+            showNotification('Answer field not found', 1500, 'error');
+            return false;
+        }
+        answerField.focus();
+        answerField.value = answer;
+        answerField.dispatchEvent(new Event('input', { bubbles: true }));
+        const submitBtn = document.querySelector('button[type="submit"], .submit-button, .next-button, [class*="submit"]');
+        if (submitBtn) submitBtn.click();
+        else answerField.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        return true;
+    }
+
+    function claimPrize() {
+        if (!CONFIG.autoClaimPrizes) return false;
+        const prizeBtn = document.querySelector('.prize-notification, .prize-banner, [class*="prize"]');
+        if (prizeBtn && prizeBtn.offsetParent !== null) {
+            prizeBtn.click();
+            showNotification('Prize claimed!', 1000, 'success');
+            setTimeout(() => {
+                const closeBtn = document.querySelector('.close-btn, .dismiss');
+                if (closeBtn) closeBtn.click();
+            }, 500);
+            return true;
+        }
+        return false;
+    }
+
+    function skipIntro() {
+        if (!CONFIG.autoSkipIntro) return;
+        const skipBtn = document.querySelector('[class*="skip"], [class*="intro"] button');
+        if (skipBtn && skipBtn.offsetParent !== null) skipBtn.click();
+    }
+
+    function removeAds() {
+        if (!CONFIG.removeAds) return;
+        const adSelectors = ['.ad-container', '[class*="ad"]', 'iframe[src*="ad"]'];
+        adSelectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(el => el.remove());
+        });
+    }
+
+    // ==================== AUTO ANSWER LOOP ====================
+    function startAutoAnswer() {
+        if (CONFIG.autoAnswerInterval) clearInterval(CONFIG.autoAnswerInterval);
+        CONFIG.autoAnswerInterval = setInterval(() => {
+            const question = getQuestionText();
+            if (!question) return;
+            const expr = extractMathExpression(question);
+            const answer = expr ? evaluateMathExpression(expr) : null;
+            if (answer !== null) {
+                submitAnswer(answer);
+                showNotification(\`Auto: \${answer}\`, 800, 'success');
+                claimPrize();
+                skipIntro();
+                removeAds();
+            } else {
+                showNotification('Could not compute answer', 1000, 'error');
+            }
+        }, 3000);
+        CONFIG.autoAnswer = true;
+        GM_setValue('autoAnswer', true);
+        showNotification('Auto Answer started', 1500, 'success');
+    }
+
+    function stopAutoAnswer() {
+        if (CONFIG.autoAnswerInterval) clearInterval(CONFIG.autoAnswerInterval);
+        CONFIG.autoAnswerInterval = null;
+        CONFIG.autoAnswer = false;
+        GM_setValue('autoAnswer', false);
+        showNotification('Auto Answer stopped', 1000, 'info');
+    }
+
+    // ==================== PRIZE FARM / SMART SCORE BOOST ====================
+    function startPrizeFarm() {
+        if (CONFIG.farmInterval) clearInterval(CONFIG.farmInterval);
+        let attempts = 0;
+        CONFIG.farmInterval = setInterval(() => {
+            const currentScore = getSmartScore();
+            if (currentScore >= CONFIG.targetScore) {
+                showNotification(\`Target score \${CONFIG.targetScore} reached!\`, 2000, 'success');
+                stopPrizeFarm();
+                return;
+            }
+            if (CONFIG.maxAttempts > 0 && attempts >= CONFIG.maxAttempts) {
+                showNotification(\`Max attempts (\${CONFIG.maxAttempts}) reached.\`, 2000, 'info');
+                stopPrizeFarm();
+                return;
+            }
+            const question = getQuestionText();
+            if (question) {
+                const expr = extractMathExpression(question);
+                const answer = expr ? evaluateMathExpression(expr) : null;
+                if (answer !== null) {
+                    submitAnswer(answer);
+                    attempts++;
+                    showNotification(\`Farm #\${attempts}: \${answer}\`, 800, 'success');
+                    claimPrize();
+                    skipIntro();
+                    removeAds();
+                } else {
+                    showNotification('Failed to compute answer', 1000, 'error');
+                }
+            }
+        }, 3000);
+        CONFIG.prizeFarm = true;
+        GM_setValue('prizeFarm', true);
+        showNotification(\`Prize farming started (target: \${CONFIG.targetScore})\`, 1500, 'success');
+    }
+
+    function stopPrizeFarm() {
+        if (CONFIG.farmInterval) clearInterval(CONFIG.farmInterval);
+        CONFIG.farmInterval = null;
+        CONFIG.prizeFarm = false;
+        GM_setValue('prizeFarm', false);
+        showNotification('Prize farming stopped', 1000, 'info');
+    }
+
+    // ==================== KEEP ALIVE ====================
+    function startKeepAlive() {
+        if (CONFIG.keepAliveInterval) clearInterval(CONFIG.keepAliveInterval);
+        CONFIG.keepAliveInterval = setInterval(() => {
+            location.reload();
+        }, 300000); // 5 minutes
+        CONFIG.keepAlive = true;
+        GM_setValue('keepAlive', true);
+        showNotification('Keep Alive active (reload every 5 min)', 1500, 'success');
+    }
+
+    function stopKeepAlive() {
+        if (CONFIG.keepAliveInterval) clearInterval(CONFIG.keepAliveInterval);
+        CONFIG.keepAliveInterval = null;
+        CONFIG.keepAlive = false;
+        GM_setValue('keepAlive', false);
+        showNotification('Keep Alive stopped', 1000, 'info');
+    }
+
+    // ==================== IDLE REFRESH ====================
+    function resetIdleTimer() {
+        if (CONFIG.idleTimer) clearTimeout(CONFIG.idleTimer);
+        CONFIG.idleTimer = setTimeout(() => {
+            if (CONFIG.idleRefresh) location.reload();
+        }, CONFIG.idleMinutes * 60 * 1000);
+    }
+    function trackActivity() {
+        resetIdleTimer();
+    }
+    function initIdleRefresh() {
+        if (!CONFIG.idleRefresh) return;
+        ['mousemove', 'keydown', 'click', 'scroll'].forEach(ev => {
+            document.addEventListener(ev, trackActivity);
+        });
+        resetIdleTimer();
+    }
+
+    // ==================== HUD ====================
+    let hudElement = null;
+    function createHUD() {
+        if (hudElement) hudElement.remove();
+        if (!CONFIG.showHUD) return;
+        hudElement = document.createElement('div');
+        hudElement.id = 'viro-hud';
+        hudElement.innerHTML = \`
+            <div>⚡ VIP</div>
+            <div id="viro-score">Score: 0</div>
+            <div id="viro-time">⏱️ 0:00</div>
+        \`;
+        document.body.appendChild(hudElement);
+        setInterval(() => {
+            const score = getSmartScore();
+            const scoreDiv = document.getElementById('viro-score');
+            if (scoreDiv) scoreDiv.textContent = \`Score: \${score}\`;
+        }, 2000);
+        let start = Date.now();
+        setInterval(() => {
+            const elapsed = Math.floor((Date.now() - start) / 1000);
+            const mins = Math.floor(elapsed / 60);
+            const secs = elapsed % 60;
+            const timeDiv = document.getElementById('viro-time');
+            if (timeDiv) timeDiv.textContent = \`⏱️ \${mins}:\${secs.toString().padStart(2,'0')}\`;
+        }, 1000);
+    }
+
+    // ==================== PROFILE PICTURE & GALLERY ====================
+    let imgs = GM_getValue('viroImgs', []);
+    let currentImg = GM_getValue('viroCurrImg', null);
+    const profPics = document.getElementsByClassName("user-avatar");
+    const initElem = document.getElementsByClassName("lk-profile-settings")[0];
+    const header = document.getElementsByClassName("box-site-nav-func")[0];
+
+    function setImg(src) {
+        for (let i = 0; i < profPics.length - 1; i++) {
+            if (src && src.trim()) {
+                profPics[i].src = src;
+                profPics[i].style = "margin-top:-3px;border-radius:50%;display:flex;justify-content:center;align-items:center;width:45px;height:45px;";
+            }
+        }
+        currentImg = src;
+        GM_setValue('viroCurrImg', src || '');
+    }
+
+    function saveImg(src) {
+        if (!imgs.includes(src)) {
+            imgs.push(src);
+            GM_setValue('viroImgs', imgs);
+        }
+        setImg(src);
+    }
+
+    function filterURL(url) {
+        const testImg = new Image();
+        testImg.onload = () => { saveImg(url); };
+        testImg.onerror = () => { alert('Invalid image URL'); };
+        testImg.src = url;
+    }
+
+    // ==================== CUSTOM ICONS (CSS) ====================
+    GM_addStyle(\`
+        /* Black & Gold Theme */
+        :root {
+            --viro-gold: \${CONFIG.goldAccent};
+            --viro-black: #0A0A0A;
+            --viro-dark: #1A1A1A;
+            --viro-text: #E0E0E0;
+        }
+        body {
+            background-color: var(--viro-black) !important;
+            color: var(--viro-text) !important;
+        }
+        /* Custom notification */
+        .viro-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--viro-dark);
+            border-left: 4px solid var(--viro-gold);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 999999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .viro-notification.success { border-left-color: #2ecc71; }
+        .viro-notification.error { border-left-color: #e74c3c; }
+        .viro-notif-icon {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        /* HUD */
+        #viro-hud {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--viro-gold);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 11px;
+            z-index: 999998;
+            backdrop-filter: blur(4px);
+        }
+        /* Gold toggle switch */
+        .viro-toggle {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .viro-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .viro-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: 0.3s;
+            border-radius: 22px;
+            border: 1px solid var(--viro-gold);
+        }
+        .viro-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .viro-slider {
+            background-color: var(--viro-gold);
+        }
+        input:checked + .viro-slider:before {
+            transform: translateX(22px);
+            background-color: black;
+        }
+        /* Buttons */
+        .viro-button {
+            background: var(--viro-dark);
+            border: 1px solid var(--viro-gold);
+            color: var(--viro-gold);
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: 0.2s;
+        }
+        .viro-button:hover {
+            background: var(--viro-gold);
+            color: black;
+        }
+        .viro-button.stop {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        .viro-button.stop:hover {
+            background: #e74c3c;
+            color: white;
+        }
+    \`);
+
+    // ==================== VIP PANEL (over 20 features) ====================
+    function createVIPPanel() {
+        const existing = document.getElementById('viro-vip-panel');
+        if (existing) existing.remove();
+
+        const panel = document.createElement('div');
+        panel.id = 'viro-vip-panel';
+        panel.innerHTML = \`
+            <div class="viro-panel-header">⚜️ VIRO VIP ⚜️</div>
+            <div class="viro-panel-content">
+                <div class="viro-section">
+                    <h4>🎨 Theme</h4>
+                    <div class="viro-row"><label>Gold Accent:</label><input type="color" id="goldColor" value="\${CONFIG.goldAccent}"></div>
+                </div>
+                <div class="viro-section">
+                    <h4>🤖 Automation</h4>
+                    <div class="viro-row"><label>Auto Answer</label><label class="viro-toggle"><input type="checkbox" id="autoAnswerToggle" \${CONFIG.autoAnswer ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Prize Farm</label><label class="viro-toggle"><input type="checkbox" id="prizeFarmToggle" \${CONFIG.prizeFarm ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Keep Alive</label><label class="viro-toggle"><input type="checkbox" id="keepAliveToggle" \${CONFIG.keepAlive ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Idle Refresh (min)</label><input type="number" id="idleMinutes" value="\${CONFIG.idleMinutes}" min="1" max="30" style="width:60px;"></div>
+                    <div class="viro-row"><label>Target Score</label><input type="number" id="targetScore" value="\${CONFIG.targetScore}" min="0" max="100"></div>
+                    <div class="viro-row"><label>Max Attempts</label><input type="number" id="maxAttempts" value="\${CONFIG.maxAttempts}" min="0"></div>
+                </div>
+                <div class="viro-section">
+                    <h4>🛡️ Security</h4>
+                    <div class="viro-row"><label>Anti‑Monitoring</label><label class="viro-toggle"><input type="checkbox" id="antiMonitorToggle" \${CONFIG.antiMonitor ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                </div>
+                <div class="viro-section">
+                    <h4>🎁 Extras</h4>
+                    <div class="viro-row"><label>Auto Claim Prizes</label><label class="viro-toggle"><input type="checkbox" id="autoClaimToggle" \${CONFIG.autoClaimPrizes ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Auto Skip Intro</label><label class="viro-toggle"><input type="checkbox" id="autoSkipToggle" \${CONFIG.autoSkipIntro ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Remove Ads</label><label class="viro-toggle"><input type="checkbox" id="removeAdsToggle" \${CONFIG.removeAds ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Show HUD</label><label class="viro-toggle"><input type="checkbox" id="showHUDToggle" \${CONFIG.showHUD ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                    <div class="viro-row"><label>Sound Alerts</label><label class="viro-toggle"><input type="checkbox" id="soundToggle" \${CONFIG.soundAlerts ? 'checked' : ''}><span class="viro-slider"></span></label></div>
+                </div>
+                <div class="viro-section">
+                    <h4>🖼️ Profile Pictures</h4>
+                    <div class="viro-row"><input type="text" id="viroUrlInput" placeholder="Image URL" style="flex:1;"><button id="viroAddUrl" class="viro-button">Add</button></div>
+                    <div class="viro-row"><input type="file" id="viroFileInput" accept="image/*" style="flex:1;"></div>
+                    <div id="viroImageGallery" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;"></div>
+                    <button id="viroResetImages" class="viro-button" style="margin-top:8px;">Reset All Images</button>
+                </div>
+                <div class="viro-section">
+                    <h4>⌨️ Keybinds</h4>
+                    <div class="viro-row"><label>Start Auto:</label><input type="text" id="keyStart" value="\${CONFIG.keybinds.startAuto}" maxlength="1" style="width:40px;"></div>
+                    <div class="viro-row"><label>Stop All:</label><input type="text" id="keyStop" value="\${CONFIG.keybinds.stopAll}" maxlength="1" style="width:40px;"></div>
+                    <div class="viro-row"><label>Open Menu:</label><input type="text" id="keyMenu" value="\${CONFIG.keybinds.openMenu}" maxlength="1" style="width:40px;"></div>
+                    <button id="viroSaveKeybinds" class="viro-button">Save Keybinds</button>
+                </div>
+                <div class="viro-section">
+                    <button id="viroGenTeacher" class="viro-button">👩🏫 Generate Teacher Demo</button>
+                    <button id="viroScrapeQnA" class="viro-button">📖 Scrape Q&A</button>
+                    <button id="viroExportConfig" class="viro-button">💾 Export Config</button>
+                    <button id="viroImportConfig" class="viro-button">📂 Import Config</button>
+                </div>
+                <div class="viro-status" id="viroStatus">Status: Idle</div>
+            </div>
+        \`;
+        document.body.appendChild(panel);
+        makeDraggable(panel, panel.querySelector('.viro-panel-header'));
+        attachPanelEvents();
+    }
+
+    function makeDraggable(el, handle) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        handle.onmousedown = dragMouseDown;
+        function dragMouseDown(e) {
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDrag;
+            document.onmousemove = elementDrag;
+        }
+        function elementDrag(e) {
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            el.style.top = (el.offsetTop - pos2) + "px";
+            el.style.left = (el.offsetLeft - pos1) + "px";
+            el.style.right = "auto";
+            el.style.bottom = "auto";
+        }
+        function closeDrag() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    function attachPanelEvents() {
+        // Theme
+        const goldColor = document.getElementById('goldColor');
+        goldColor.addEventListener('change', (e) => {
+            CONFIG.goldAccent = e.target.value;
+            GM_setValue('goldAccent', CONFIG.goldAccent);
+            document.documentElement.style.setProperty('--viro-gold', CONFIG.goldAccent);
+        });
+
+        // Automation toggles
+        document.getElementById('autoAnswerToggle').addEventListener('change', (e) => {
+            if (e.target.checked) startAutoAnswer(); else stopAutoAnswer();
+        });
+        document.getElementById('prizeFarmToggle').addEventListener('change', (e) => {
+            if (e.target.checked) startPrizeFarm(); else stopPrizeFarm();
+        });
+        document.getElementById('keepAliveToggle').addEventListener('change', (e) => {
+            if (e.target.checked) startKeepAlive(); else stopKeepAlive();
+        });
+        document.getElementById('antiMonitorToggle').addEventListener('change', (e) => {
+            CONFIG.antiMonitor = e.target.checked;
+            GM_setValue('antiMonitor', CONFIG.antiMonitor);
+            if (CONFIG.antiMonitor) enableAntiMonitoring();
+        });
+        document.getElementById('autoClaimToggle').addEventListener('change', (e) => {
+            CONFIG.autoClaimPrizes = e.target.checked;
+            GM_setValue('autoClaimPrizes', CONFIG.autoClaimPrizes);
+        });
+        document.getElementById('autoSkipToggle').addEventListener('change', (e) => {
+            CONFIG.autoSkipIntro = e.target.checked;
+            GM_setValue('autoSkipIntro', CONFIG.autoSkipIntro);
+        });
+        document.getElementById('removeAdsToggle').addEventListener('change', (e) => {
+            CONFIG.removeAds = e.target.checked;
+            GM_setValue('removeAds', CONFIG.removeAds);
+            if (CONFIG.removeAds) removeAds();
+        });
+        document.getElementById('showHUDToggle').addEventListener('change', (e) => {
+            CONFIG.showHUD = e.target.checked;
+            GM_setValue('showHUD', CONFIG.showHUD);
+            createHUD();
+        });
+        document.getElementById('soundToggle').addEventListener('change', (e) => {
+            CONFIG.soundAlerts = e.target.checked;
+            GM_setValue('soundAlerts', CONFIG.soundAlerts);
+        });
+        const idleMin = document.getElementById('idleMinutes');
+        idleMin.addEventListener('change', () => {
+            CONFIG.idleMinutes = parseInt(idleMin.value) || 5;
+            GM_setValue('idleMinutes', CONFIG.idleMinutes);
+            if (CONFIG.idleRefresh) initIdleRefresh();
+        });
+        const targetScore = document.getElementById('targetScore');
+        targetScore.addEventListener('change', () => {
+            CONFIG.targetScore = parseInt(targetScore.value) || 100;
+            GM_setValue('targetScore', CONFIG.targetScore);
+        });
+        const maxAttempts = document.getElementById('maxAttempts');
+        maxAttempts.addEventListener('change', () => {
+            CONFIG.maxAttempts = parseInt(maxAttempts.value) || 0;
+            GM_setValue('maxAttempts', CONFIG.maxAttempts);
+        });
+
+        // Profile pictures
+        const urlInput = document.getElementById('viroUrlInput');
+        const addUrlBtn = document.getElementById('viroAddUrl');
+        addUrlBtn.addEventListener('click', () => {
+            if (urlInput.value.trim()) filterURL(urlInput.value.trim());
+            urlInput.value = '';
+        });
+        const fileInput = document.getElementById('viroFileInput');
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => saveImg(ev.target.result);
+            reader.readAsDataURL(file);
+        });
+        const resetBtn = document.getElementById('viroResetImages');
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Remove all saved images?')) {
+                imgs = [];
+                GM_setValue('viroImgs', []);
+                setImg('');
+                refreshImageGallery();
+            }
+        });
+        function refreshImageGallery() {
+            const gallery = document.getElementById('viroImageGallery');
+            if (!gallery) return;
+            gallery.innerHTML = '';
+            imgs.forEach((src, idx) => {
+                const card = document.createElement('div');
+                card.className = 'viro-gallery-item';
+                card.style = 'width:60px;height:60px;border-radius:50%;overflow:hidden;cursor:pointer;border:2px solid ' + (currentImg === src ? 'var(--viro-gold)' : 'transparent');
+                const img = document.createElement('img');
+                img.src = src;
+                img.style = 'width:100%;height:100%;object-fit:cover';
+                card.appendChild(img);
+                const del = document.createElement('button');
+                del.innerText = '✖';
+                del.style = 'position:absolute;margin:-10px 0 0 -15px;background:red;color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer';
+                del.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    imgs.splice(idx, 1);
+                    GM_setValue('viroImgs', imgs);
+                    if (currentImg === src) setImg('');
+                    refreshImageGallery();
+                });
+                card.appendChild(del);
+                card.addEventListener('click', () => setImg(src));
+                gallery.appendChild(card);
+            });
+        }
+        refreshImageGallery();
+
+        // Keybinds
+        document.getElementById('viroSaveKeybinds').addEventListener('click', () => {
+            CONFIG.keybinds = {
+                startAuto: document.getElementById('keyStart').value[0] || 'a',
+                stopAll: document.getElementById('keyStop').value[0] || 's',
+                openMenu: document.getElementById('keyMenu').value[0] || 'm'
+            };
+            GM_setValue('keybinds', CONFIG.keybinds);
+            showNotification('Keybinds saved', 1000, 'success');
+        });
+
+        // Other actions
+        document.getElementById('viroGenTeacher').addEventListener('click', () => {
+            const firstNames = ["John", "Jane", "Alex", "Maria", "James", "Linda"];
+            const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia"];
+            const domains = ["school.edu", "district.org", "teachermail.com"];
+            const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const email = \`\${first.toLowerCase()}.\${last.toLowerCase()}@\${domains[Math.floor(Math.random() * domains.length)]}\`;
+            const password = Math.random().toString(36).slice(-10);
+            showNotification(\`Demo teacher: \${email} / \${password}\`, 5000, 'info');
+            console.log(\`VIRO VIP teacher: \${email} | \${password}\`);
+        });
+        document.getElementById('viroScrapeQnA').addEventListener('click', () => {
+            const questions = document.querySelectorAll('.question-text, .problem');
+            if (!questions.length) { showNotification('No questions found', 1000, 'error'); return; }
+            const data = Array.from(questions).map((q, i) => \`\${i+1}. \${q.innerText.trim()}\`).join('\\n');
+            const blob = new Blob([data], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ixl_questions.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification(\`Scraped \${questions.length} questions.\`, 1500, 'success');
+        });
+        document.getElementById('viroExportConfig').addEventListener('click', () => {
+            const exportData = {};
+            for (let key in CONFIG) {
+                if (typeof CONFIG[key] !== 'function') exportData[key] = CONFIG[key];
+            }
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'viro_vip_config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('Config exported', 1000, 'success');
+        });
+        document.getElementById('viroImportConfig').addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const imported = JSON.parse(ev.target.result);
+                        for (let key in imported) {
+                            if (CONFIG.hasOwnProperty(key)) CONFIG[key] = imported[key];
+                        }
+                        // Apply settings
+                        GM_setValue('darkMode', CONFIG.darkMode);
+                        GM_setValue('goldAccent', CONFIG.goldAccent);
+                        document.documentElement.style.setProperty('--viro-gold', CONFIG.goldAccent);
+                        location.reload();
+                    } catch (err) { showNotification('Invalid config', 1000, 'error'); }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        });
+
+        // Status update
+        const statusDiv = document.getElementById('viroStatus');
+        setInterval(() => {
+            const active = [];
+            if (CONFIG.autoAnswer) active.push('Auto');
+            if (CONFIG.prizeFarm) active.push('Farm');
+            if (CONFIG.keepAlive) active.push('Keep');
+            statusDiv.textContent = active.length ? \`Active: \${active.join(', ')}\` : 'Status: Idle';
+        }, 1000);
+    }
+
+    // ==================== KEYBOARD SHORTCUTS ====================
+    function setupKeybinds() {
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            const kb = CONFIG.keybinds;
+            if (key === kb.startAuto) {
+                const toggle = document.getElementById('autoAnswerToggle');
+                if (toggle && !toggle.checked) toggle.click();
+                e.preventDefault();
+            } else if (key === kb.stopAll) {
+                if (CONFIG.autoAnswer) document.getElementById('autoAnswerToggle').click();
+                if (CONFIG.prizeFarm) document.getElementById('prizeFarmToggle').click();
+                if (CONFIG.keepAlive) document.getElementById('keepAliveToggle').click();
+                e.preventDefault();
+            } else if (key === kb.openMenu) {
+                const panel = document.getElementById('viro-vip-panel');
+                if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                e.preventDefault();
+            }
+        });
+    }
+
+    // ==================== INITIALIZATION ====================
+    function init() {
+        // Apply gold accent
+        document.documentElement.style.setProperty('--viro-gold', CONFIG.goldAccent);
+        // Anti‑monitoring
+        if (CONFIG.antiMonitor) enableAntiMonitoring();
+        // Create VIP panel
+        createVIPPanel();
+        // Start persisted automations
+        if (CONFIG.autoAnswer) startAutoAnswer();
+        if (CONFIG.prizeFarm) startPrizeFarm();
+        if (CONFIG.keepAlive) startKeepAlive();
+        if (CONFIG.idleRefresh) initIdleRefresh();
+        createHUD();
+        setupKeybinds();
+        // Add URL/file inputs to original header (optional)
+        if (header) {
+            const urlField = document.createElement('input');
+            urlField.placeholder = 'Image URL';
+            urlField.style = 'margin:10px; width:180px;';
+            const addBtn = document.createElement('button');
+            addBtn.textContent = 'Add Pic';
+            addBtn.className = 'viro-button';
+            addBtn.onclick = () => { if (urlField.value) filterURL(urlField.value); urlField.value = ''; };
+            header.append(urlField, addBtn);
+        }
+        showNotification('VIRO VIP loaded – press M to toggle menu', 3000, 'success');
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();`;
+
+        // Function to trigger download
+        function downloadScript() {
+            const blob = new Blob([scriptContent], {type: 'application/javascript'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'VIRO_VIP.user.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            // Optional: show success message
+            alert('Download started. After download, open the file in Tampermonkey/Violentmonkey to install.');
+        }
+
+        // Attach download button event after login
+        function showDownload() {
+            downloadSection.style.display = 'block';
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.addEventListener('click', downloadScript);
+        }
+
+        // Login logic
+        loginBtn.addEventListener('click', () => {
+            const entered = accessInput.value.trim();
+            if (entered === VIP_PASSWORD) {
+                errorMsg.style.display = 'none';
+                authenticated = true;
+                showDownload();
+                // Optional: disable login form or hide it
+                document.querySelector('.login-form').style.display = 'none';
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'info-text';
+                successMsg.style.color = '#ffd700';
+                successMsg.style.marginTop = '1rem';
+                successMsg.textContent = '✅ Access granted. Click below to download VIRO VIP.';
+                document.querySelector('.vip-content').insertBefore(successMsg, downloadSection);
+            } else {
+                errorMsg.style.display = 'block';
+                accessInput.value = '';
+                accessInput.focus();
+            }
+        });
+
+        // Allow Enter key in password field
+        accessInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+    </script>
+</body>
+</html>
